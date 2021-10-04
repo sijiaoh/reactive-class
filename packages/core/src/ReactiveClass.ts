@@ -5,11 +5,11 @@ export class ReactiveClass {
       set: (target: any, p, value) => {
         if (target[p] === value) return true;
         target[p] = value;
-        this.onChange();
+        this.__onChange();
         return true;
       },
     });
   }
 
-  private onChange = () => {};
+  private __onChange = () => {};
 }
