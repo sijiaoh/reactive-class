@@ -2,13 +2,14 @@
   "name": "core",
   "packageManager": "yarn@3.0.2",
   "scripts": {
-    "lint": "eslint .",
-    "clean": "rm -rf build",
+    "lint": "gts lint",
+    "clean": "gts clean",
     "compile": "tsc",
-    "fix": "eslint . && prettier --write --ignore-path .eslintignore **/*.json **/.*.js",
+    "fix": "gts fix",
     "prepublish": "yarn clean && yarn compile",
-    "pretest": "yarn compile",
-    "posttest": "yarn lint"
+    "pretest": "yarn run compile",
+    "posttest": "yarn run lint",
+    "prepare": "yarn run compile"
   },
   "devDependencies": {
     "@types/node": "^16.10.2",
