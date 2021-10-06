@@ -25,25 +25,29 @@ describe(ReactiveClass.name, () => {
   describe('ReactiveClass.__onChange', () => {
     it('call when some value changed', () => {
       const e = new Example();
-      const child = new Example();
+      e.child = new Example();
       e.children = [new Example()];
-      e.child = child;
+      e.child.child = new Example();
 
       let calledCount = 0;
       let eCalledCount = 0;
       let childCalledCount = 0;
       let childrenCalledCount = 0;
+      let grandChildCalledCount = 0;
       ReactiveClass.__onChange = instance => {
         calledCount++;
         switch (instance) {
           case e:
             eCalledCount++;
             break;
-          case child:
+          case e.child:
             childCalledCount++;
             break;
           case e.children[0]:
             childrenCalledCount++;
+            break;
+          case e.child!.child:
+            grandChildCalledCount++;
             break;
         }
       };
@@ -62,7 +66,7 @@ describe(ReactiveClass.name, () => {
       e.arr.push('');
       expect(eCalledCount).toBe(2);
 
-      child.num++;
+      e.child.num++;
       expect(eCalledCount).toBe(3);
       expect(childCalledCount).toBe(1);
 
@@ -70,7 +74,12 @@ describe(ReactiveClass.name, () => {
       expect(eCalledCount).toBe(3);
       expect(childrenCalledCount).toBe(1);
 
-      expect(calledCount).toBe(5);
+      e.child.child.num++;
+      expect(eCalledCount).toBe(4);
+      expect(childCalledCount).toBe(2);
+      expect(grandChildCalledCount).toBe(1);
+
+      expect(calledCount).toBe(8);
     });
   });
 });

@@ -23,7 +23,6 @@ export class ReactiveClass {
           }
 
           this.__onChange();
-          this.__parents.forEach(parent => parent.__onChange());
         }
 
         return true;
@@ -49,5 +48,6 @@ export class ReactiveClass {
 
   private __onChange = () => {
     ReactiveClass.__onChange?.(this.__self);
+    this.__parents.forEach(parent => parent.__onChange());
   };
 }
