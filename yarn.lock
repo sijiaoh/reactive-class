@@ -750,6 +750,8 @@ __metadata:
   dependencies:
     "@reactive-class/core": "workspace:packages/core"
     "@types/node": ^16.10.3
+    "@types/react": ^17.0.27
+    react: ^17.0.2
     sijiaoh-gts: ^0.5.0
     typescript: ^4.4.3
   languageName: unknown
@@ -939,12 +941,37 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/prop-types@npm:*":
+  version: 15.7.4
+  resolution: "@types/prop-types@npm:15.7.4"
+  checksum: ef6e1899e59b876c273811b1bd845022fc66d5a3d11cb38a25b6c566b30514ae38fe20a40f67622f362a4f4f7f9224e22d8da101cff3d6e97e11d7b4c307cfc1
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:^17.0.27":
+  version: 17.0.27
+  resolution: "@types/react@npm:17.0.27"
+  dependencies:
+    "@types/prop-types": "*"
+    "@types/scheduler": "*"
+    csstype: ^3.0.2
+  checksum: 3a1147d963c16dc9bbea5afb20c4be94f2389cf4eca4c5fbe9b02f3406bd9957602c0459ea017c95f8c3d523221f572e8bd842f94654835776d4c2923357f9dc
+  languageName: node
+  linkType: hard
+
 "@types/responselike@npm:^1.0.0":
   version: 1.0.0
   resolution: "@types/responselike@npm:1.0.0"
   dependencies:
     "@types/node": "*"
   checksum: e99fc7cc6265407987b30deda54c1c24bb1478803faf6037557a774b2f034c5b097ffd65847daa87e82a61a250d919f35c3588654b0fdaa816906650f596d1b0
+  languageName: node
+  linkType: hard
+
+"@types/scheduler@npm:*":
+  version: 0.16.2
+  resolution: "@types/scheduler@npm:0.16.2"
+  checksum: b6b4dcfeae6deba2e06a70941860fb1435730576d3689225a421280b7742318d1548b3d22c1f66ab68e414f346a9542f29240bc955b6332c5b11e561077583bc
   languageName: node
   linkType: hard
 
@@ -1855,6 +1882,13 @@ __metadata:
   dependencies:
     cssom: ~0.3.6
   checksum: 5f05e6fd2e3df0b44695c2f08b9ef38b011862b274e320665176467c0725e44a53e341bc4959a41176e83b66064ab786262e7380fd1cabeae6efee0d255bb4e3
+  languageName: node
+  linkType: hard
+
+"csstype@npm:^3.0.2":
+  version: 3.0.9
+  resolution: "csstype@npm:3.0.9"
+  checksum: 199f9af7e673f9f188525c3102a329d637ff46c52f6385a4427ff5cb17adcb736189150170a7af7c5701d18d7704bdad130273f4aa7e44c6c4f9967e6115dc93
   languageName: node
   linkType: hard
 
@@ -4004,7 +4038,7 @@ fsevents@^2.3.2:
   languageName: node
   linkType: hard
 
-"js-tokens@npm:^4.0.0":
+"js-tokens@npm:^3.0.0 || ^4.0.0, js-tokens@npm:^4.0.0":
   version: 4.0.0
   resolution: "js-tokens@npm:4.0.0"
   checksum: 8a95213a5a77deb6cbe94d86340e8d9ace2b93bc367790b260101d2f36a2eaf4e4e22d9fa9cf459b38af3a32fb4190e638024cf82ec95ef708680e405ea7cc78
@@ -4258,6 +4292,17 @@ fsevents@^2.3.2:
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: eb835a2e51d381e561e508ce932ea50a8e5a68f4ebdd771ea240d3048244a8d13658acbd502cd4829768c56f2e16bdd4340b9ea141297d472517b83868e677f7
+  languageName: node
+  linkType: hard
+
+"loose-envify@npm:^1.1.0":
+  version: 1.4.0
+  resolution: "loose-envify@npm:1.4.0"
+  dependencies:
+    js-tokens: ^3.0.0 || ^4.0.0
+  bin:
+    loose-envify: cli.js
+  checksum: 6517e24e0cad87ec9888f500c5b5947032cdfe6ef65e1c1936a0c48a524b81e65542c9c3edc91c97d5bddc806ee2a985dbc79be89215d613b1de5db6d1cfe6f4
   languageName: node
   linkType: hard
 
@@ -4702,7 +4747,7 @@ fsevents@^2.3.2:
   languageName: node
   linkType: hard
 
-"object-assign@npm:^4.1.0":
+"object-assign@npm:^4.1.0, object-assign@npm:^4.1.1":
   version: 4.1.1
   resolution: "object-assign@npm:4.1.1"
   checksum: fcc6e4ea8c7fe48abfbb552578b1c53e0d194086e2e6bbbf59e0a536381a292f39943c6e9628af05b5528aa5e3318bb30d6b2e53cadaf5b8fe9e12c4b69af23f
@@ -5195,6 +5240,16 @@ fsevents@^2.3.2:
   version: 17.0.2
   resolution: "react-is@npm:17.0.2"
   checksum: 9d6d111d8990dc98bc5402c1266a808b0459b5d54830bbea24c12d908b536df7883f268a7868cfaedde3dd9d4e0d574db456f84d2e6df9c4526f99bb4b5344d8
+  languageName: node
+  linkType: hard
+
+"react@npm:^17.0.2":
+  version: 17.0.2
+  resolution: "react@npm:17.0.2"
+  dependencies:
+    loose-envify: ^1.1.0
+    object-assign: ^4.1.1
+  checksum: b254cc17ce3011788330f7bbf383ab653c6848902d7936a87b09d835d091e3f295f7e9dd1597c6daac5dc80f90e778c8230218ba8ad599f74adcc11e33b9d61b
   languageName: node
   linkType: hard
 
