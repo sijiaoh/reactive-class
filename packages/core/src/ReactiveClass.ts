@@ -1,5 +1,5 @@
 export class ReactiveClass {
-  public static __onChange?: (instance: ReactiveClass) => void;
+  static __onChange?: (instance: ReactiveClass) => void;
   private static instances: ReactiveClass[] = [];
 
   private __self: ReactiveClass;
