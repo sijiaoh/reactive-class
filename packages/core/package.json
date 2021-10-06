@@ -1,6 +1,7 @@
 {
   "name": "@reactive-class/core",
   "packageManager": "yarn@3.0.2",
+  "main": "build/src/index.js",
   "scripts": {
     "lint": "gts lint",
     "clean": "gts clean",
@@ -8,8 +9,7 @@
     "fix": "gts fix",
     "prepublish": "yarn clean && yarn compile",
     "test": "jest",
-    "posttest": "yarn run lint",
-    "prepare": "yarn run compile"
+    "posttest": "yarn run lint"
   },
   "devDependencies": {
     "@types/jest": "^27.0.2",
