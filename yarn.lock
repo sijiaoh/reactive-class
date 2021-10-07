@@ -738,7 +738,7 @@ __metadata:
     eslint: ^7.32.0
     jest: ^27.2.4
     prettier: ^2.4.1
-    sijiaoh-gts: ^0.5.0
+    sijiaoh-gts: ^0.5.1
     ts-jest: ^27.0.5
     typescript: ^4.4.3
   languageName: unknown
@@ -756,7 +756,7 @@ __metadata:
     jest: ^27.2.4
     react: ^17.0.2
     react-test-renderer: ^17.0.2
-    sijiaoh-gts: ^0.5.0
+    sijiaoh-gts: ^0.5.1
     ts-jest: ^27.0.5
     typescript: ^4.4.3
   languageName: unknown
@@ -5625,9 +5625,9 @@ fsevents@^2.3.2:
   languageName: node
   linkType: hard
 
-"sijiaoh-gts@npm:^0.5.0":
-  version: 0.5.0
-  resolution: "sijiaoh-gts@npm:0.5.0"
+"sijiaoh-gts@npm:^0.5.1":
+  version: 0.5.1
+  resolution: "sijiaoh-gts@npm:0.5.1"
   dependencies:
     "@typescript-eslint/eslint-plugin": ^4.2.0
     "@typescript-eslint/parser": ^4.2.0
@@ -5651,7 +5651,7 @@ fsevents@^2.3.2:
     typescript: ">=3"
   bin:
     gts: build/src/cli.js
-  checksum: 719166f0fe30b9d0f0c5294dd109821acf395e20303b9b030f6f09c653e8a9e063bbb5a5ba04d19b482d5f46c1be1dfb357a4333502083371191ab8ef32d7e23
+  checksum: 35141fcfedab71c74d34b6af4af839d8bc4bde631f7b0cafdfa0fee97c901b808c2e4e708a20f9a6228c46727b7bb88570569cae8f70d5d96ba224d786056a11
   languageName: node
   linkType: hard
 

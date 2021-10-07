@@ -1,4 +1,3 @@
-// eslint-disable-next-line node/no-unpublished-import
 import {create, act, ReactTestRenderer} from 'react-test-renderer';
 import {useListen, ReactiveClass} from '.';
 
