@@ -1,7 +1,8 @@
+import {ReactiveClass as Base} from '@reactive-class/core';
 import {useEffect, useState} from 'react';
 import {ReactiveClass} from '.';
 
-ReactiveClass.__onChange = instance => {
+Base.__onChange = instance => {
   if (!(instance instanceof ReactiveClass)) return;
   instance.__stateCount++;
   instance.__stateSetters.forEach(setter => {
@@ -9,8 +10,9 @@ ReactiveClass.__onChange = instance => {
   });
 };
 
-export const useListen = (instance: ReactiveClass) => {
+export const useListen = <T extends ReactiveClass>(instance: T) => {
   const [, setCount] = useState(instance.__stateCount);
+
   useEffect(() => {
     instance.__stateSetters.push(setCount);
     return () => {
@@ -19,4 +21,6 @@ export const useListen = (instance: ReactiveClass) => {
       );
     };
   }, [instance]);
+
+  return instance;
 };
