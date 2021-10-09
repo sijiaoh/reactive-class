@@ -20,14 +20,14 @@ describe(useListen.name, () => {
           {name}
           {eData.num}
           {JSON.stringify(eData.arr)}
-          {e.child?.child && `grandChild: ${e.child?.child?.num}`}
-          {e.child && (
+            {eData.child?.child && `grandChild: ${eData.child.child.num}`}
+            {eData.child && (
             <Component
-              e={e.child}
+                e={eData.child}
               name={name === 'e' ? 'child' : 'grandChild'}
             />
           )}
-          {e.children.map((child, index) => (
+            {eData.children.map((child, index) => (
             <Component key={index} e={child} name={`children-${index}`} />
           ))}
         </>
