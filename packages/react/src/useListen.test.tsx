@@ -20,6 +20,7 @@ describe(useListen.name, () => {
           {name}
           {eData.num}
           {JSON.stringify(eData.arr)}
+          {e.child?.child && `grandChild: ${e.child?.child?.num}`}
           {e.child && (
             <Component
               e={e.child}
