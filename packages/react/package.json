@@ -1,12 +1,15 @@
 {
   "name": "@reactive-class/react",
   "packageManager": "yarn@3.0.2",
+  "files": [
+    "build"
+  ],
   "scripts": {
     "lint": "gts lint",
     "clean": "gts clean",
-    "compile": "tsc",
+    "compile": "tsc --project tsconfig.build.json",
     "fix": "gts fix",
-    "prepare": "yarn run compile",
+    "prepublish": "yarn clean && yarn compile",
     "test": "jest",
     "posttest": "yarn run lint"
   },

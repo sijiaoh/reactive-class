@@ -1,11 +1,14 @@
 {
   "name": "@reactive-class/core",
   "packageManager": "yarn@3.0.2",
+  "files": [
+    "build"
+  ],
   "main": "build/src/index.js",
   "scripts": {
     "lint": "gts lint",
     "clean": "gts clean",
-    "compile": "tsc",
+    "compile": "tsc --project tsconfig.build.json",
     "fix": "gts fix",
     "prepublish": "yarn clean && yarn compile",
     "test": "jest",
