@@ -7,10 +7,6 @@ class Example extends ReactiveClass {
   children: Example[] = [];
 }
 
-afterEach(() => {
-  ReactiveClass.__onChange = undefined;
-});
-
 describe(ReactiveClass.name, () => {
   it('all reactive class instance in ReactiveClass.instances', () => {
     expect(ReactiveClass['instances'].length).toBe(0);
@@ -22,37 +18,40 @@ describe(ReactiveClass.name, () => {
     expect(ReactiveClass['instances'].length).toBe(1);
   });
 
-  describe('ReactiveClass.__onChange', () => {
-    it('call when some value changed', () => {
+  describe('subscribe', () => {
+    it('return unsubscribe callback', () => {
+      const e = new Example();
+      expect(e['__callbacks'].length).toBe(0);
+      const unsubscribe = e.subscribe(() => {});
+      expect(e['__callbacks'].length).toBe(1);
+      unsubscribe();
+      expect(e['__callbacks'].length).toBe(0);
+    });
+
+    it('call callbacks when some value changed', () => {
       const e = new Example();
       e.child = new Example();
       e.children = [new Example()];
       e.child.child = new Example();
 
-      let calledCount = 0;
       let eCalledCount = 0;
       let childCalledCount = 0;
       let childrenCalledCount = 0;
       let grandChildCalledCount = 0;
-      ReactiveClass.__onChange = instance => {
-        calledCount++;
-        switch (instance) {
-          case e:
-            eCalledCount++;
-            break;
-          case e.child:
-            childCalledCount++;
-            break;
-          case e.children[0]:
-            childrenCalledCount++;
-            break;
-          case e.child!.child:
-            grandChildCalledCount++;
-            break;
-        }
-      };
+      e.subscribe(i => {
+        expect(i).toBeTruthy();
+        eCalledCount++;
+      });
+      e.child.subscribe(() => {
+        childCalledCount++;
+      });
+      e.children[0].subscribe(() => {
+        childrenCalledCount++;
+      });
+      e.child.child.subscribe(() => {
+        grandChildCalledCount++;
+      });
 
-      expect(calledCount).toBe(0);
       expect(eCalledCount).toBe(0);
       expect(childCalledCount).toBe(0);
       expect(childrenCalledCount).toBe(0);
@@ -78,8 +77,83 @@ describe(ReactiveClass.name, () => {
       expect(eCalledCount).toBe(4);
       expect(childCalledCount).toBe(2);
       expect(grandChildCalledCount).toBe(1);
+    });
+  });
 
-      expect(calledCount).toBe(8);
+  describe('destroy', () => {
+    it('call callbacks with undefined', () => {
+      const e = new Example();
+      e.subscribe(i => expect(i).toBeFalsy());
+      e.destroy();
+    });
+
+    it('stop onChange propagation', () => {
+      const e = new Example();
+      e.child = new Example();
+      e.child.child = new Example();
+
+      let eChangeCount1 = 0;
+      let eChangeCount2 = 0;
+      let childChangeCount1 = 0;
+      let childChangeCount2 = 0;
+      let grandChildChangeCount1 = 0;
+      let grandChildChangeCount2 = 0;
+
+      e.subscribe(i => {
+        if (i) eChangeCount1++;
+        else eChangeCount2++;
+      });
+      e.child.subscribe(i => {
+        if (i) childChangeCount1++;
+        else childChangeCount2++;
+      });
+      e.child.child.subscribe(i => {
+        if (i) grandChildChangeCount1++;
+        else grandChildChangeCount2++;
+      });
+
+      expect(eChangeCount1).toBe(0);
+      expect(eChangeCount2).toBe(0);
+      expect(childChangeCount1).toBe(0);
+      expect(childChangeCount2).toBe(0);
+      expect(grandChildChangeCount1).toBe(0);
+      expect(grandChildChangeCount2).toBe(0);
+
+      e.child.destroy();
+
+      expect(eChangeCount1).toBe(1);
+      expect(eChangeCount2).toBe(0);
+      expect(childChangeCount1).toBe(0);
+      expect(childChangeCount2).toBe(1);
+      expect(grandChildChangeCount1).toBe(0);
+      expect(grandChildChangeCount2).toBe(0);
+
+      e.child.num++;
+
+      expect(eChangeCount1).toBe(1);
+      expect(eChangeCount2).toBe(0);
+      expect(childChangeCount1).toBe(0);
+      expect(childChangeCount2).toBe(1);
+      expect(grandChildChangeCount1).toBe(0);
+      expect(grandChildChangeCount2).toBe(0);
+
+      e.num++;
+
+      expect(eChangeCount1).toBe(2);
+      expect(eChangeCount2).toBe(0);
+      expect(childChangeCount1).toBe(0);
+      expect(childChangeCount2).toBe(1);
+      expect(grandChildChangeCount1).toBe(0);
+      expect(grandChildChangeCount2).toBe(0);
+
+      e.child.child.num++;
+
+      expect(eChangeCount1).toBe(2);
+      expect(eChangeCount2).toBe(0);
+      expect(childChangeCount1).toBe(0);
+      expect(childChangeCount2).toBe(1);
+      expect(grandChildChangeCount1).toBe(1);
+      expect(grandChildChangeCount2).toBe(0);
     });
   });
 });
