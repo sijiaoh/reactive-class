@@ -5,6 +5,7 @@
   "files": [
     "build"
   ],
+  "main": "build/src/index.js",
   "scripts": {
     "lint": "gts lint",
     "clean": "gts clean",
