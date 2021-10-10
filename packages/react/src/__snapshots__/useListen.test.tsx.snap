@@ -1,6 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`useListen rerender component when instance value changed: 0 default 1`] = `
+exports[`useListen with selector rerender component only selected value changed: 0 default 1`] = `"[]"`;
+
+exports[`useListen with selector rerender component only selected value changed: 1 arr changed 1`] = `"[\\"yes\\"]"`;
+
+exports[`useListen without selector rerender component when instance value changed: 0 default 1`] = `
 Array [
   "e",
   "0",
@@ -21,28 +25,7 @@ Array [
 ]
 `;
 
-exports[`useListen rerender component when instance value changed: 1 e num increment 1`] = `
-Array [
-  "e",
-  "1",
-  "[]",
-  "grandChild: 0",
-  "child",
-  "0",
-  "[]",
-  "grandChild",
-  "0",
-  "[]",
-  "children-0",
-  "0",
-  "[]",
-  "children-1",
-  "0",
-  "[]",
-]
-`;
-
-exports[`useListen rerender component when instance value changed: 2 no changes 1`] = `
+exports[`useListen without selector rerender component when instance value changed: 1 e num increment 1`] = `
 Array [
   "e",
   "1",
@@ -63,11 +46,11 @@ Array [
 ]
 `;
 
-exports[`useListen rerender component when instance value changed: 3 e array changed 1`] = `
+exports[`useListen without selector rerender component when instance value changed: 2 no changes 1`] = `
 Array [
   "e",
   "1",
-  "[\\"yes\\"]",
+  "[]",
   "grandChild: 0",
   "child",
   "0",
@@ -84,14 +67,14 @@ Array [
 ]
 `;
 
-exports[`useListen rerender component when instance value changed: 4 child num increment 1`] = `
+exports[`useListen without selector rerender component when instance value changed: 3 e array changed 1`] = `
 Array [
   "e",
   "1",
   "[\\"yes\\"]",
   "grandChild: 0",
   "child",
-  "1",
+  "0",
   "[]",
   "grandChild",
   "0",
@@ -105,7 +88,7 @@ Array [
 ]
 `;
 
-exports[`useListen rerender component when instance value changed: 5 children-0 num increment 1`] = `
+exports[`useListen without selector rerender component when instance value changed: 4 child num increment 1`] = `
 Array [
   "e",
   "1",
@@ -118,6 +101,27 @@ Array [
   "0",
   "[]",
   "children-0",
+  "0",
+  "[]",
+  "children-1",
+  "0",
+  "[]",
+]
+`;
+
+exports[`useListen without selector rerender component when instance value changed: 5 children-0 num increment 1`] = `
+Array [
+  "e",
+  "1",
+  "[\\"yes\\"]",
+  "grandChild: 0",
+  "child",
+  "1",
+  "[]",
+  "grandChild",
+  "0",
+  "[]",
+  "children-0",
   "1",
   "[]",
   "children-1",
@@ -126,7 +130,7 @@ Array [
 ]
 `;
 
-exports[`useListen rerender component when instance value changed: 6 grandChild num increment 1`] = `
+exports[`useListen without selector rerender component when instance value changed: 6 grandChild num increment 1`] = `
 Array [
   "e",
   "1",

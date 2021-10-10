@@ -1,26 +1,41 @@
-import {ReactiveClass as Base} from '@reactive-class/core';
 import {useEffect, useState} from 'react';
+import {shallowEquals} from './shallowEquals';
 import {ReactiveClass} from '.';
 
-Base.__onChange = instance => {
-  if (!(instance instanceof ReactiveClass)) return;
-  instance.__stateCount++;
-  instance.__stateSetters.forEach(setter => {
-    setter(instance.__stateCount);
-  });
-};
+interface Selector<T, U> {
+  (instance: T): U;
+}
 
-export const useListen = <T extends ReactiveClass>(instance: T) => {
-  const [, setCount] = useState(instance.__stateCount);
+export function useListen<T extends ReactiveClass>(instance: T): T;
+export function useListen<T extends ReactiveClass, U>(
+  instance: T,
+  selector?: Selector<T, U>
+): U;
+export function useListen<T extends ReactiveClass, U>(
+  instance: T,
+  selector?: Selector<T, U>
+): T | U {
+  const [, setCount] = useState(instance.__changeCount);
+  const [ret, setRet] = useState(selector ? selector(instance) : instance);
 
   useEffect(() => {
-    instance.__stateSetters.push(setCount);
+    const callback = !selector
+      ? (changeCount: number) => {
+          setCount(changeCount);
+        }
+      : () => {
+          const newRet = selector ? selector(instance) : instance;
+          if (shallowEquals(ret, newRet)) return;
+          setRet(newRet);
+        };
+
+    instance.__changeCallbacks.push(callback);
     return () => {
-      instance.__stateSetters = instance.__stateSetters.filter(
-        setter => setter !== setCount
+      instance.__changeCallbacks = instance.__changeCallbacks.filter(
+        c => c !== callback
       );
     };
-  }, [instance]);
+  }, [instance, ret, selector]);
 
-  return instance;
-};
+  return ret;
+}

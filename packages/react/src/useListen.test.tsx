@@ -9,85 +9,145 @@ class Example extends ReactiveClass {
 }
 
 describe(useListen.name, () => {
-  it('rerender component when instance value changed', () => {
-    let renderCount = 0;
-    let expectRenderCount = 0;
-    const Component = ({e, name}: {e: Example; name: string}) => {
-      const eData = useListen(e);
-      renderCount++;
-      return (
-        <>
-          {name}
-          {eData.num}
-          {JSON.stringify(eData.arr)}
+  describe('without selector', () => {
+    it('rerender component when instance value changed', () => {
+      let renderCount = 0;
+      let expectRenderCount = 0;
+      const Component = ({e, name}: {e: Example; name: string}) => {
+        const eData = useListen(e);
+        renderCount++;
+        return (
+          <>
+            {name}
+            {eData.num}
+            {JSON.stringify(eData.arr)}
             {eData.child?.child && `grandChild: ${eData.child.child.num}`}
             {eData.child && (
-            <Component
+              <Component
                 e={eData.child}
-              name={name === 'e' ? 'child' : 'grandChild'}
-            />
-          )}
+                name={name === 'e' ? 'child' : 'grandChild'}
+              />
+            )}
             {eData.children.map((child, index) => (
-            <Component key={index} e={child} name={`children-${index}`} />
-          ))}
-        </>
+              <Component key={index} e={child} name={`children-${index}`} />
+            ))}
+          </>
+        );
+      };
+
+      const e = new Example();
+      e.child = new Example();
+      e.children = [new Example(), new Example()];
+      e.child.child = new Example();
+
+      const instanceNum = 5;
+
+      let testRenderer!: ReactTestRenderer;
+      void act(() => {
+        testRenderer = create(<Component e={e} name="e" />);
+      });
+      expect(testRenderer.toJSON()).toMatchSnapshot('0 default');
+      expectRenderCount += instanceNum;
+      expect(renderCount).toBe(expectRenderCount);
+
+      void act(() => {
+        e.num++;
+      });
+      expect(testRenderer.toJSON()).toMatchSnapshot('1 e num increment');
+      expectRenderCount += instanceNum;
+      expect(renderCount).toBe(expectRenderCount);
+
+      void act(() => {
+        e.arr.push('no');
+      });
+      expect(testRenderer.toJSON()).toMatchSnapshot('2 no changes');
+      expect(renderCount).toBe(expectRenderCount);
+
+      void act(() => {
+        e.arr = ['yes'];
+      });
+      expect(testRenderer.toJSON()).toMatchSnapshot('3 e array changed');
+      expectRenderCount += instanceNum;
+      expect(renderCount).toBe(expectRenderCount);
+
+      void act(() => {
+        e.child!.num++;
+      });
+      expect(testRenderer.toJSON()).toMatchSnapshot('4 child num increment');
+      expectRenderCount += instanceNum;
+      expect(renderCount).toBe(expectRenderCount);
+
+      void act(() => {
+        e.children[0].num++;
+      });
+      expect(testRenderer.toJSON()).toMatchSnapshot(
+        '5 children-0 num increment'
       );
-    };
+      expectRenderCount++;
+      expect(renderCount).toBe(expectRenderCount);
 
-    const e = new Example();
-    e.child = new Example();
-    e.children = [new Example(), new Example()];
-    e.child.child = new Example();
-
-    const instanceNum = 5;
-
-    let testRenderer!: ReactTestRenderer;
-    void act(() => {
-      testRenderer = create(<Component e={e} name="e" />);
+      void act(() => {
+        e.child!.child!.num++;
+      });
+      expect(testRenderer.toJSON()).toMatchSnapshot(
+        '6 grandChild num increment'
+      );
+      expectRenderCount += instanceNum;
+      expect(renderCount).toBe(expectRenderCount);
     });
-    expect(testRenderer.toJSON()).toMatchSnapshot('0 default');
-    expectRenderCount += instanceNum;
-    expect(renderCount).toBe(expectRenderCount);
+  });
 
-    void act(() => {
-      e.num++;
-    });
-    expect(testRenderer.toJSON()).toMatchSnapshot('1 e num increment');
-    expectRenderCount += instanceNum;
-    expect(renderCount).toBe(expectRenderCount);
+  describe('with selector', () => {
+    it('rerender component only selected value changed', () => {
+      let renderCount = 0;
+      const Component = ({e}: {e: Example}) => {
+        const arr = useListen(e, ({arr}) => arr);
+        renderCount++;
+        return <>{JSON.stringify(arr)}</>;
+      };
 
-    void act(() => {
-      e.arr.push('no');
-    });
-    expect(testRenderer.toJSON()).toMatchSnapshot('2 no changes');
-    expect(renderCount).toBe(expectRenderCount);
+      const e = new Example();
+      e.child = new Example();
+      e.children = [new Example(), new Example()];
+      e.child.child = new Example();
 
-    void act(() => {
-      e.arr = ['yes'];
-    });
-    expect(testRenderer.toJSON()).toMatchSnapshot('3 e array changed');
-    expectRenderCount += instanceNum;
-    expect(renderCount).toBe(expectRenderCount);
+      let testRenderer!: ReactTestRenderer;
+      void act(() => {
+        testRenderer = create(<Component e={e} />);
+      });
+      expect(testRenderer.toJSON()).toMatchSnapshot('0 default');
+      expect(renderCount).toBe(1);
 
-    void act(() => {
-      e.child!.num++;
-    });
-    expect(testRenderer.toJSON()).toMatchSnapshot('4 child num increment');
-    expectRenderCount += instanceNum;
-    expect(renderCount).toBe(expectRenderCount);
+      void act(() => {
+        e.num++;
+      });
+      expect(renderCount).toBe(1);
 
-    void act(() => {
-      e.children[0].num++;
-    });
-    expect(testRenderer.toJSON()).toMatchSnapshot('5 children-0 num increment');
-    expectRenderCount++;
-    expect(renderCount).toBe(expectRenderCount);
+      void act(() => {
+        e.arr.push('no');
+      });
+      expect(renderCount).toBe(1);
 
-    void act(() => {
-      e.child!.child!.num++;
+      void act(() => {
+        e.arr = ['yes'];
+      });
+      expect(testRenderer.toJSON()).toMatchSnapshot('1 arr changed');
+      expect(renderCount).toBe(2);
+
+      void act(() => {
+        e.child!.num++;
+      });
+      expect(renderCount).toBe(2);
+
+      void act(() => {
+        e.children[0].num++;
+      });
+      expect(renderCount).toBe(2);
+
+      void act(() => {
+        e.child!.child!.num++;
+      });
+      expect(renderCount).toBe(2);
     });
-    expect(testRenderer.toJSON()).toMatchSnapshot('6 grandChild num increment');
-    expectRenderCount += instanceNum;
-    expect(renderCount).toBe(expectRenderCount);
   });
 });

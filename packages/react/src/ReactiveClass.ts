@@ -1,7 +1,14 @@
 import {ReactiveClass as Base} from '@reactive-class/core';
-import {Dispatch} from 'react';
 
 export class ReactiveClass extends Base {
-  __stateCount = 0;
-  __stateSetters: Dispatch<number>[] = [];
+  __changeCount = 0;
+  __changeCallbacks: ((changeCount: number) => void)[] = [];
 }
+
+Base.__onChange = instance => {
+  if (!(instance instanceof ReactiveClass)) return;
+  instance.__changeCount++;
+  instance.__changeCallbacks.forEach(callback => {
+    callback(instance.__changeCount);
+  });
+};
