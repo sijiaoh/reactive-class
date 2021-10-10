@@ -15,13 +15,14 @@ export function useListen<T extends ReactiveClass, U>(
   instance: T,
   selector?: Selector<T, U>
 ): T | U {
-  const [, setCount] = useState(instance.__changeCount);
+  const [, setCount] = useState(instance['__changeCount']);
   const [ret, setRet] = useState(selector ? selector(instance) : instance);
 
   useEffect(() => {
     const callback = !selector
-      ? (changeCount: number) => {
-          setCount(changeCount);
+      ? (instance: T | undefined) => {
+          if (!instance) return;
+          setCount(instance['__changeCount']);
         }
       : () => {
           const newRet = selector ? selector(instance) : instance;
@@ -29,12 +30,7 @@ export function useListen<T extends ReactiveClass, U>(
           setRet(newRet);
         };
 
-    instance.__changeCallbacks.push(callback);
-    return () => {
-      instance.__changeCallbacks = instance.__changeCallbacks.filter(
-        c => c !== callback
-      );
-    };
+    return instance.subscribe(callback);
   }, [instance, ret, selector]);
 
   return ret;
