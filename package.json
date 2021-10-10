@@ -4,5 +4,10 @@
   "packageManager": "yarn@3.0.2",
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "scripts": {
+    "g:compile": "yarn workspaces foreach run test",
+    "g:test": "yarn workspaces foreach run test",
+    "g:fix": "yarn workspaces foreach run fix"
+  }
 }
