@@ -6,8 +6,9 @@
     "packages/*"
   ],
   "scripts": {
-    "g:compile": "yarn workspaces foreach run test",
-    "g:test": "yarn workspaces foreach run test",
-    "g:fix": "yarn workspaces foreach run fix"
+    "g:publish": "yarn workspaces foreach --parallel --topological-dev --no-private npm publish",
+    "g:compile": "yarn workspaces foreach --parallel run test",
+    "g:test": "yarn workspaces foreach --parallel run test",
+    "g:fix": "yarn workspaces foreach --parallel run fix"
   }
 }
