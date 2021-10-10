@@ -5244,12 +5244,6 @@ fsevents@^2.3.2:
   languageName: node
   linkType: hard
 
-"react-class@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "react-class@workspace:."
-  languageName: unknown
-  linkType: soft
-
 "react-is@npm:^16.12.0 || ^17.0.0, react-is@npm:^17.0.1, react-is@npm:^17.0.2":
   version: 17.0.2
   resolution: "react-is@npm:17.0.2"
@@ -5292,6 +5286,12 @@ fsevents@^2.3.2:
   checksum: b254cc17ce3011788330f7bbf383ab653c6848902d7936a87b09d835d091e3f295f7e9dd1597c6daac5dc80f90e778c8230218ba8ad599f74adcc11e33b9d61b
   languageName: node
   linkType: hard
+
+"reactive-class@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "reactive-class@workspace:."
+  languageName: unknown
+  linkType: soft
 
 "read-pkg-up@npm:^3.0.0":
   version: 3.0.0
