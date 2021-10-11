@@ -32,12 +32,12 @@ export class User extends ReactiveClass {
 useListen の引数に渡された ReactiveClass インスタンスに変更が生じた場合、コンポーネントが再レンダリングされ、変更がビューに反映される。
 
 ```tsx
-import { useListen } from '@reactive-class/react';
-import { User } from './User';
+import {useListen} from '@reactive-class/react';
+import {User} from './User';
 
 const user = new User();
 
-export Component=()=>{
+export const Component = () => {
   useListen(user);
 
   return (
@@ -46,7 +46,7 @@ export Component=()=>{
       <div>{user.email}</div>
     </div>
   );
-}
+};
 ```
 
 useListen はインスタンスをそのまま返すため、下記のように使用できる。
@@ -54,12 +54,12 @@ useListen はインスタンスをそのまま返すため、下記のように�
 一度変数を経由させることで、変更により使われなくなった余分な useListen をエディターや eslint が警告してくれるので、特別な理由がない限りはこのやり方を推奨する。
 
 ```tsx
-import { useListen } from '@reactive-class/react';
-import { User } from './User';
+import {useListen} from '@reactive-class/react';
+import {User} from './User';
 
 const user = new User();
 
-export Component=()=>{
+export const Component = () => {
   // userData === user
   const userData = useListen(user);
 
@@ -69,7 +69,7 @@ export Component=()=>{
       <div>{userData.email}</div>
     </div>
   );
-}
+};
 ```
 
 ### セレクタ
@@ -79,12 +79,12 @@ export Component=()=>{
 useListen はコールバック関数の戻り値を返し、user に変更が生じるたびに関数を再評価し、その戻り値が前回のものと異なっていた場合のみ、コンポーネントを再レンダリングする。
 
 ```tsx
-import { useListen } from '@reactive-class/react';
-import { User } from './User';
+import {useListen} from '@reactive-class/react';
+import {User} from './User';
 
 const user = new User();
 
-export Component = () => {
+export const Component = () => {
   const name = useListen(user, instance => instance.name);
 
   return (
@@ -92,7 +92,7 @@ export Component = () => {
       <div>{name}</div>
     </div>
   );
-}
+};
 ```
 
 利便性のため、useListen はコールバック関数の戻り値が array や object だった場合は、単純に`===`で比較するのではなく、その内部要素数、順番、key、value が一致しているかを見る。
@@ -100,12 +100,12 @@ export Component = () => {
 よって、下のコードは上のコードと全く同じように振る舞う。
 
 ```tsx
-import { useListen } from '@reactive-class/react';
-import { User } from './User';
+import {useListen} from '@reactive-class/react';
+import {User} from './User';
 
 const user = new User();
 
-export Component = () => {
+export const Component = () => {
   const {name} = useListen(user, instance => ({name: instance.name}));
 
   return (
@@ -113,7 +113,7 @@ export Component = () => {
       <div>{name}</div>
     </div>
   );
-}
+};
 ```
 
 [rc-core-url]: https://github.com/sijiaoh/reactive-class/tree/master/packages/core

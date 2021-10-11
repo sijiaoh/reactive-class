@@ -36,8 +36,8 @@ import {User} from './User';
 
 const user = new User();
 
-const callback = (instance: User) => {
-  console.log(instance.name);
+const callback = (instance?: User) => {
+  console.log(instance?.name);
 };
 
 const unsubscribe = user.subscribe(callback);
@@ -57,13 +57,14 @@ import {User} from './User';
 
 const user = new User();
 
-const callback = (instance: User) => {
+const callback = (instance?: User) => {
   console.log(instance?.name);
 };
 
-const unsubscribe = user.subscribe(callback);
+user.subscribe(callback);
 user.name = 'a'; // Console output: a
 user.destroy(); // Console output: undefined
+user.name = 'b'; // With no output.
 ```
 
 ## 詳細
@@ -73,7 +74,7 @@ user.destroy(); // Console output: undefined
 新旧の値を`===`で比較しているだけという仕様上、配列とオブジェクトの扱いには気をつける必要がある。
 
 ```ts
-import {ReactiveClass} from '@reactive-class/react';
+import {ReactiveClass} from '@reactive-class/core';
 
 export class User extends ReactiveClass {
   arr: string[] = [];
@@ -85,7 +86,7 @@ const user = new User();
 // 全く新しい配列やオブジェクトを代入すると、変更イベントが発火する。
 user.arr = ['a'];
 user.obj = {a: 'a'};
-user.arr = [...user.add, 'b'];
+user.arr = [...user.arr, 'b'];
 user.obj = {...user.obj, b: 'b'};
 
 // 内部の値を変更するだけでは、変更イベントは発火しない。
@@ -104,7 +105,7 @@ user.obj['c'] = 'c';
 直接所持している ReactiveClass インスタンスで変更イベントが発火した際には、自身でもイベントが発火する。
 
 ```ts
-import {ReactiveClass} from '@reactive-class/react';
+import {ReactiveClass} from '@reactive-class/core';
 
 export class User extends ReactiveClass {
   name = '';
