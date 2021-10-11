@@ -1,14 +1,16 @@
 {
   "folders": [
-	{
-		"path": ".."
-	},
-	{
-		"path": "../packages/core"
-	},
-	{
-		"path": "../packages/react"
-	}
-],
-  "settings": {}
+    {
+      "path": ".."
+    },
+    {
+      "path": "../packages/core"
+    },
+    {
+      "path": "../packages/react"
+    }
+  ],
+  "settings": {
+    "cSpell.words": ["shallowequal"]
+  }
 }

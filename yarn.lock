@@ -795,9 +795,11 @@ __metadata:
     "@types/node": ^16.10.3
     "@types/react": ^17.0.27
     "@types/react-test-renderer": ^17.0.1
+    "@types/shallowequal": ^1.1.1
     jest: ^27.2.5
     react: ^17.0.2
     react-test-renderer: ^17.0.2
+    shallowequal: ^1.1.0
     sijiaoh-gts: ^0.5.2
     ts-jest: ^27.0.5
     typescript: ^4.4.3
@@ -1028,6 +1030,13 @@ __metadata:
   version: 0.16.2
   resolution: "@types/scheduler@npm:0.16.2"
   checksum: b6b4dcfeae6deba2e06a70941860fb1435730576d3689225a421280b7742318d1548b3d22c1f66ab68e414f346a9542f29240bc955b6332c5b11e561077583bc
+  languageName: node
+  linkType: hard
+
+"@types/shallowequal@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@types/shallowequal@npm:1.1.1"
+  checksum: ed724c42d61b42e52306dfeb8c1af913a97f616a2098831a3f0801db3d391f00470dfe47f76fb213a087e4277dbf80857098aa2e56acb700f156befe06f6431f
   languageName: node
   linkType: hard
 
@@ -5771,6 +5780,13 @@ fsevents@^2.3.2:
   version: 2.0.0
   resolution: "set-blocking@npm:2.0.0"
   checksum: 6e65a05f7cf7ebdf8b7c75b101e18c0b7e3dff4940d480efed8aad3a36a4005140b660fa1d804cb8bce911cac290441dc728084a30504d3516ac2ff7ad607b02
+  languageName: node
+  linkType: hard
+
+"shallowequal@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "shallowequal@npm:1.1.0"
+  checksum: f4c1de0837f106d2dbbfd5d0720a5d059d1c66b42b580965c8f06bb1db684be8783538b684092648c981294bf817869f743a066538771dbecb293df78f765e00
   languageName: node
   linkType: hard
 

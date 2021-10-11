@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {shallowEquals} from './shallowEquals';
+import shallowequal from 'shallowequal';
 import {ReactiveClass} from '.';
 
 interface Selector<T, U> {
@@ -26,7 +26,7 @@ export function useListen<T extends ReactiveClass, U>(
         }
       : () => {
           const newRet = selector ? selector(instance) : instance;
-          if (shallowEquals(ret, newRet)) return;
+          if (shallowequal(ret, newRet)) return;
           setRet(newRet);
         };
 
