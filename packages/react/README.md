@@ -29,7 +29,7 @@ export class User extends ReactiveClass {
 
 ### useListen
 
-useListen の引数に渡された ReactiveClass インスタンスに変更が生じた場合、コンポーネントが再レンダリングされ、変更がビューに反映される。
+useListen に渡された ReactiveClass インスタンスで変更イベントが発火した場合、コンポーネントが再レンダリングされ、変更がビューに反映される。
 
 ```tsx
 import {useListen} from '@reactive-class/react';
@@ -76,7 +76,7 @@ export const Component = () => {
 
 セレクタを使用することで、レンダリング回数を抑えることができる。
 
-useListen はコールバック関数の戻り値を返し、user に変更が生じるたびに関数を再評価し、その戻り値が前回のものと異なっていた場合のみ、コンポーネントを再レンダリングする。
+useListen はコールバック関数の戻り値を返し、user で変更イベントが発火する度に関数を再評価し、その戻り値が前回のものと異なっていた場合、コンポーネントを再レンダリングする。
 
 ```tsx
 import {useListen} from '@reactive-class/react';
@@ -95,7 +95,7 @@ export const Component = () => {
 };
 ```
 
-利便性のため、useListen はコールバック関数の戻り値が array や object だった場合は、単純に`===`で比較するのではなく、その内部要素数、順番、key、value が一致しているかを見る。
+利便性のため、useListen はコールバック関数の戻り値が array や object だった場合は、単純に`===`で比較するのではなく、[shallowequal][shallowequal-url]で比較している。
 
 よって、下のコードは上のコードと全く同じように振る舞う。
 
@@ -117,3 +117,4 @@ export const Component = () => {
 ```
 
 [rc-core-url]: https://github.com/sijiaoh/reactive-class/tree/master/packages/core
+[shallowequal-url]: https://github.com/dashed/shallowequal
