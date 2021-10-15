@@ -1,3 +1,4 @@
+import {useEffect, useState} from 'react';
 import {create, act, ReactTestRenderer} from 'react-test-renderer';
 import {useListen, ReactiveClass} from '.';
 
@@ -148,6 +149,62 @@ describe(useListen.name, () => {
         e.child!.child!.num++;
       });
       expect(renderCount).toBe(2);
+    });
+  });
+
+  describe('use revision with useEffect', () => {
+    it('rerun useEffect only when user updated', () => {
+      const user = new Example();
+      let rerender!: () => void;
+      let renderCount = 0;
+      let updateCount = 0;
+
+      const Component = () => {
+        const {revision} = useListen(user, ({revision}) => ({revision}));
+        const [count, setCount] = useState(0);
+
+        useEffect(() => {
+          rerender = () => {
+            setCount(count + 1);
+          };
+        }, [count]);
+
+        useEffect(() => {
+          updateCount++;
+        }, [revision]);
+
+        renderCount++;
+
+        return (
+          <div>
+            <div>{revision}</div>
+          </div>
+        );
+      };
+
+      let testRenderer!: ReactTestRenderer;
+      void act(() => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        testRenderer = create(<Component />);
+      });
+
+      expect(renderCount).toBe(1);
+      expect(updateCount).toBe(1);
+      void act(() => {
+        rerender();
+      });
+      expect(renderCount).toBe(2);
+      expect(updateCount).toBe(1);
+      void act(() => {
+        user.num++;
+      });
+      expect(renderCount).toBe(3);
+      expect(updateCount).toBe(2);
+      void act(() => {
+        rerender();
+      });
+      expect(renderCount).toBe(4);
+      expect(updateCount).toBe(2);
     });
   });
 });

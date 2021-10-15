@@ -116,5 +116,35 @@ export const Component = () => {
 };
 ```
 
+### Revision
+
+ReactiveClass インスタンスは revision という整数値を持っており、これは変更イベントが発火するたびにインクリメントされていくため、useEffect などの更新判定配列に使用することができる。
+
+**注意:** revision は一定値を超えると 0 に戻るため、大小の比較に使用することはできない。
+
+```ts
+import {useListen} from '@reactive-class/react';
+import {User} from './User';
+
+const user = new User();
+
+export const Component = () => {
+  const {revision, name} = useListen(user, ({revision, name}) => ({
+    revision,
+    name,
+  }));
+
+  useEffect(() => {
+    console.log('user changed');
+  }, [revision]);
+
+  return (
+    <div>
+      <div>{name}</div>
+    </div>
+  );
+};
+```
+
 [rc-core-url]: https://github.com/sijiaoh/reactive-class/tree/master/packages/core
 [shallowequal-url]: https://github.com/dashed/shallowequal
