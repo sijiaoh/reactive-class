@@ -96,6 +96,43 @@ describe(useListen.name, () => {
       expectRenderCount += instanceNum;
       expect(renderCount).toBe(expectRenderCount);
     });
+
+    it('not rerender component after destroyed', () => {
+      let renderCount = 0;
+      let expectRenderCount = 0;
+      const Component = ({e}: {e: Example}) => {
+        useListen(e);
+        renderCount++;
+        return <></>;
+      };
+
+      const e = new Example();
+
+      let testRenderer!: ReactTestRenderer;
+      void act(() => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        testRenderer = create(<Component e={e} />);
+      });
+      expectRenderCount++;
+      expect(renderCount).toBe(expectRenderCount);
+
+      void act(() => {
+        e.num++;
+      });
+      expectRenderCount++;
+      expect(renderCount).toBe(expectRenderCount);
+
+      void act(() => {
+        e.destroy();
+      });
+      expectRenderCount++;
+      expect(renderCount).toBe(expectRenderCount);
+
+      void act(() => {
+        e.num++;
+      });
+      expect(renderCount).toBe(expectRenderCount);
+    });
   });
 
   describe('with selector', () => {

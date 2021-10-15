@@ -36,8 +36,8 @@ import {User} from './User';
 
 const user = new User();
 
-const callback = (instance?: User) => {
-  console.log(instance?.name);
+const callback = (instance: User) => {
+  console.log(instance.name);
 };
 
 const unsubscribe = user.subscribe(callback);
@@ -48,7 +48,7 @@ user.name = 'b'; // With no output.
 
 ### Destroy
 
-destroy 関数を呼び出したインスタンスは reactive な挙動をしなくなる。
+destroy 関数を呼び出したインスタンスは destroyed が true になり、 reactive な挙動をしなくなる。
 
 イベントの伝播もしない。
 
@@ -57,13 +57,13 @@ import {User} from './User';
 
 const user = new User();
 
-const callback = (instance?: User) => {
-  console.log(instance?.name);
+const callback = ({name, destroyed}: User) => {
+  console.log(destroyed ? 'destroyed' : name);
 };
 
 user.subscribe(callback);
 user.name = 'a'; // Console output: a
-user.destroy(); // Console output: undefined
+user.destroy(); // Console output: destroyed
 user.name = 'b'; // With no output.
 ```
 

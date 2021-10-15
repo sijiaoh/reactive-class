@@ -1,5 +1,5 @@
 export interface Callback<T extends ReactiveClass> {
-  (instance: T | undefined): void;
+  (instance: T): void;
 }
 
 export interface Unsubscribe {
@@ -19,6 +19,10 @@ class Base {
 export class ReactiveClass extends Base {
   static revisionWrapAroundNumber = 1000000;
   private static instances: ReactiveClass[] = [];
+
+  get destroyed() {
+    return this.__destroyed;
+  }
 
   get revision() {
     return this.__revision;
@@ -50,14 +54,14 @@ export class ReactiveClass extends Base {
   }
 
   destroy = () => {
+    this.__destroyed = true;
+    this.__onChange();
     ReactiveClass.instances = ReactiveClass.instances.filter(
       instance => instance !== this
     );
     ReactiveClass.instances.forEach(instance => {
       instance.__parents = instance.__parents.filter(parent => parent !== this);
     });
-    this.__destroyed = true;
-    this.__onChange();
   };
 
   subscribe: Subscribe<this> = callback => {
@@ -76,9 +80,7 @@ export class ReactiveClass extends Base {
   private __onChange = () => {
     this.__revision =
       (this.__revision + 1) % ReactiveClass.revisionWrapAroundNumber;
-    this.__callbacks.forEach(callback =>
-      callback(this.__destroyed ? undefined : this)
-    );
+    this.__callbacks.forEach(callback => callback(this));
     this.__parents.forEach(parent => parent.__onChange());
   };
 }

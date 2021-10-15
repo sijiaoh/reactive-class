@@ -20,8 +20,7 @@ export function useListen<T extends ReactiveClass, U>(
 
   useEffect(() => {
     const callback = !selector
-      ? (instance: T | undefined) => {
-          if (!instance) return;
+      ? (instance: T) => {
           setCount(instance.revision);
         }
       : () => {

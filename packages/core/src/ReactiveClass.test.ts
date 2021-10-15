@@ -77,7 +77,7 @@ describe(ReactiveClass.name, () => {
       let childrenCalledCount = 0;
       let grandChildCalledCount = 0;
       e.subscribe(i => {
-        expect(i).toBeTruthy();
+        expect(i.destroyed).toBeFalsy();
         eCalledCount++;
       });
       e.child.subscribe(() => {
@@ -121,7 +121,7 @@ describe(ReactiveClass.name, () => {
   describe('destroy', () => {
     it('call callbacks with undefined', () => {
       const e = new Example();
-      e.subscribe(i => expect(i).toBeFalsy());
+      e.subscribe(i => expect(i.destroyed).toBeTruthy());
       e.destroy();
     });
 
@@ -138,15 +138,15 @@ describe(ReactiveClass.name, () => {
       let grandChildChangeCount2 = 0;
 
       e.subscribe(i => {
-        if (i) eChangeCount1++;
+        if (!i.destroyed) eChangeCount1++;
         else eChangeCount2++;
       });
       e.child.subscribe(i => {
-        if (i) childChangeCount1++;
+        if (!i.destroyed) childChangeCount1++;
         else childChangeCount2++;
       });
       e.child.child.subscribe(i => {
-        if (i) grandChildChangeCount1++;
+        if (!i.destroyed) grandChildChangeCount1++;
         else grandChildChangeCount2++;
       });
 
