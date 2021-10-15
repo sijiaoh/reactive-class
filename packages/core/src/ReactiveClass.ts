@@ -17,7 +17,12 @@ class Base {
 }
 
 export class ReactiveClass extends Base {
+  static revisionWrapAroundNumber = 1000000;
   private static instances: ReactiveClass[] = [];
+
+  get revision() {
+    return this.__revision;
+  }
 
   constructor() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -62,14 +67,15 @@ export class ReactiveClass extends Base {
     };
   };
 
-  protected __changeCount = 0;
+  protected __revision = 0;
 
   private __parents: ReactiveClass[] = [];
   private __callbacks: Callback<this>[] = [];
   private __destroyed = false;
 
   private __onChange = () => {
-    this.__changeCount++;
+    this.__revision =
+      (this.__revision + 1) % ReactiveClass.revisionWrapAroundNumber;
     this.__callbacks.forEach(callback =>
       callback(this.__destroyed ? undefined : this)
     );

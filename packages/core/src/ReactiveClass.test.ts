@@ -18,6 +18,44 @@ describe(ReactiveClass.name, () => {
     expect(ReactiveClass['instances'].length).toBe(1);
   });
 
+  describe('revision', () => {
+    it('increment when instance changed', () => {
+      const e = new Example();
+      e.child = new Example();
+      e.children = [new Example()];
+      e.child.child = new Example();
+
+      const initialRevision = e.revision;
+      e.num++;
+      e.arr = [];
+      e.child.num++;
+      e.children = [];
+      e.child.child.num++;
+      expect(e.revision).toBe(initialRevision + 5);
+    });
+
+    it('wrap around with ReactiveClass.revisionWrapAroundNumber', () => {
+      const oldRevisionWrapAroundNumber =
+        ReactiveClass.revisionWrapAroundNumber;
+      ReactiveClass.revisionWrapAroundNumber = 3;
+
+      const e = new Example();
+      e.child = new Example();
+      e.children = [new Example()];
+      e.child.child = new Example();
+
+      const initialRevision = e.revision;
+      e.num++;
+      e.arr = [];
+      e.child.num++;
+      e.children = [];
+      e.child.child.num++;
+      expect(e.revision).toBe((initialRevision + 5) % 3);
+
+      ReactiveClass.revisionWrapAroundNumber = oldRevisionWrapAroundNumber;
+    });
+  });
+
   describe('subscribe', () => {
     it('return unsubscribe callback', () => {
       const e = new Example();
