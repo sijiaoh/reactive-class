@@ -1845,6 +1845,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"commander@npm:^8.2.0":
+  version: 8.2.0
+  resolution: "commander@npm:8.2.0"
+  checksum: e868805bc266777f7a9c8a740e15b9e02b8148d8251f577ea9b9ef373ac0bdeb77b9b60cfc033592c9e1affea89993be08c13c623f0c619f9bf152c0e4d12cb0
+  languageName: node
+  linkType: hard
+
 "concat-map@npm:0.0.1":
   version: 0.0.1
   resolution: "concat-map@npm:0.0.1"
@@ -5362,6 +5369,8 @@ fsevents@^2.3.2:
 "reactive-class@workspace:.":
   version: 0.0.0-use.local
   resolution: "reactive-class@workspace:."
+  dependencies:
+    commander: ^8.2.0
   languageName: unknown
   linkType: soft
 
