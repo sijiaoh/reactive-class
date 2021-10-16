@@ -12,9 +12,19 @@
     "g:clear": "yarn workspaces foreach --parallel run clear",
     "g:build": "yarn workspaces foreach --parallel --topological-dev run build",
     "g:test": "yarn workspaces foreach --parallel run test",
-    "g:fix": "yarn workspaces foreach --parallel run fix"
+    "g:fix": "yarn workspaces foreach --parallel run fix",
+    "lint": "gts lint",
+    "clean": "gts clean",
+    "build": "tsc --project tsconfig.build.json",
+    "fix": "gts fix",
+    "prepare": "yarn run build",
+    "pretest": "yarn run build",
+    "posttest": "yarn run lint"
   },
   "devDependencies": {
-    "commander": "^8.2.0"
+    "@types/node": "^16.11.0",
+    "commander": "^8.2.0",
+    "sijiaoh-gts": "^0.5.4",
+    "typescript": "^4.4.4"
   }
 }
