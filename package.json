@@ -7,6 +7,7 @@
   ],
   "scripts": {
     "g:publish": "yarn workspaces foreach --parallel --topological-dev --no-private npm publish --access=public",
+    "g:prepublish": "yarn workspaces foreach --parallel --topological-dev run prepublish",
     "g:clear": "yarn workspaces foreach --parallel run clear",
     "g:build": "yarn workspaces foreach --parallel run build",
     "g:test": "yarn workspaces foreach --parallel run test",
