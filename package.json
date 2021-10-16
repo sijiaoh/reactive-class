@@ -6,7 +6,7 @@
     "packages/*"
   ],
   "scripts": {
-    "g:version": "node scripts/version",
+    "g:version": "ts-node scripts/version",
     "g:publish": "yarn workspaces foreach --parallel --topological-dev --no-private npm publish --access=public",
     "g:prepublish": "yarn workspaces foreach --parallel --topological-dev run prepublish",
     "g:clear": "yarn workspaces foreach --parallel run clear",
@@ -25,6 +25,7 @@
     "@types/node": "^16.11.0",
     "commander": "^8.2.0",
     "sijiaoh-gts": "^0.5.4",
+    "ts-node": "^10.3.0",
     "typescript": "^4.4.4"
   }
 }
