@@ -10,9 +10,9 @@
   "scripts": {
     "lint": "gts lint",
     "clean": "gts clean",
-    "compile": "tsc --project tsconfig.build.json",
+    "build": "tsc --project tsconfig.build.json",
     "fix": "gts fix",
-    "prepublish": "yarn clean && yarn compile",
+    "prepublish": "yarn clean && yarn build",
     "test": "jest",
     "posttest": "yarn run lint"
   },
