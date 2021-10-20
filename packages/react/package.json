@@ -2,6 +2,13 @@
   "name": "@reactive-class/react",
   "version": "0.1.0",
   "packageManager": "yarn@3.0.2",
+  "keywords": [
+    "typescript",
+    "reactive-class",
+    "react",
+    "sijiaoh"
+  ],
+  "author": "sijiaoh",
   "license": "MIT",
   "files": [
     "build"
