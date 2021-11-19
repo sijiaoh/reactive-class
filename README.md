@@ -12,5 +12,5 @@ Flux もいいが、OOP したい。
 
 変更イベント発火時にコンポーネントを再レンダリングする useListen フックを提供する。
 
-[rc-core-url]: https://github.com/sijiaoh/reactive-class/tree/master/packages/core
-[rc-react-url]: https://github.com/sijiaoh/reactive-class/tree/master/packages/react
+[rc-core-url]: https://github.com/sijiaoh/reactive-class/tree/main/packages/core
+[rc-react-url]: https://github.com/sijiaoh/reactive-class/tree/main/packages/react
