@@ -133,6 +133,68 @@ describe(useListen.name, () => {
       });
       expect(renderCount).toBe(expectRenderCount);
     });
+
+    it('can handle undefined', () => {
+      const Component = ({e}: {e: Example | undefined}) => {
+        const eData = useListen(e);
+        const num = useListen(e, e => {
+          if (e == null) return -1;
+          return e?.num;
+        });
+        return (
+          <>
+            {typeof eData?.num}
+            {num}
+          </>
+        );
+      };
+
+      const e = new Example();
+      let testRenderer1!: ReactTestRenderer;
+      let testRenderer2!: ReactTestRenderer;
+      expect(() => {
+        void act(() => {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          testRenderer1 = create(<Component e={undefined} />);
+        });
+        void act(() => {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          testRenderer2 = create(<Component e={e} />);
+        });
+      }).not.toThrowError();
+
+      expect(testRenderer1.toJSON()).toMatchInlineSnapshot(`
+        Array [
+          "undefined",
+          "-1",
+        ]
+      `);
+      expect(testRenderer2.toJSON()).toMatchInlineSnapshot(`
+        Array [
+          "number",
+          "0",
+        ]
+      `);
+
+      expect(() => {
+        void act(() => {
+          e.num++;
+        });
+      }).not.toThrowError();
+
+      expect(testRenderer1.toJSON()).toMatchInlineSnapshot(`
+        Array [
+          "undefined",
+          "-1",
+        ]
+      `);
+      expect(testRenderer2.toJSON()).toMatchInlineSnapshot(`
+        Array [
+          "number",
+          "1",
+        ]
+      `);
+    });
   });
 
   describe('with selector', () => {

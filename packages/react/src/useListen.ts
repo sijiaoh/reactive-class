@@ -1,30 +1,43 @@
 import {useEffect, useState} from 'react';
 import shallowequal from 'shallowequal';
-import {ReactiveClass} from '.';
+import type {ReactiveClass} from '.';
 
-interface Selector<T, U> {
+export interface Selector<T, U> {
   (instance: T): U;
 }
 
-export function useListen<T extends ReactiveClass>(instance: T): T;
-export function useListen<T extends ReactiveClass, U>(
-  instance: T,
-  selector?: Selector<T, U>
-): U;
-export function useListen<T extends ReactiveClass, U>(
-  instance: T,
-  selector?: Selector<T, U>
-): T | U {
-  const [, setCount] = useState(instance.revision);
-  const [ret, setRet] = useState(selector ? selector(instance) : instance);
+export interface UseListen {
+  <T extends ReactiveClass>(instance: T): T;
+  <T extends ReactiveClass>(instance: T | undefined): T | undefined;
+  <T extends ReactiveClass, U>(instance: T, selector: Selector<T, U>): U;
+  <T extends ReactiveClass, U>(
+    instance: T | undefined,
+    selector: Selector<T | undefined, U | undefined>
+  ): U | undefined;
+  <T extends ReactiveClass, U>(
+    instance: T | undefined,
+    selector: Selector<T | undefined, U | undefined> | undefined
+  ): T | U | undefined;
+}
+
+export const useListen: UseListen = <T extends ReactiveClass, U>(
+  instance: T | undefined,
+  selector?: Selector<T | undefined, U | undefined>
+): T | U | undefined => {
+  const [, setCount] = useState(instance?.revision);
+  const [ret, setRet] = useState<T | U | undefined>(
+    selector ? selector(instance) : instance
+  );
 
   useEffect(() => {
+    if (instance == null) return;
+
     const callback = !selector
-      ? (instance: T) => {
-          setCount(instance.revision);
+      ? (i: T) => {
+          setCount(i.revision);
         }
-      : () => {
-          const newRet = selector ? selector(instance) : instance;
+      : (i: T) => {
+          const newRet = selector ? selector(i) : i;
           if (shallowequal(ret, newRet)) return;
           setRet(newRet);
         };
@@ -33,4 +46,4 @@ export function useListen<T extends ReactiveClass, U>(
   }, [instance, ret, selector]);
 
   return ret;
-}
+};
