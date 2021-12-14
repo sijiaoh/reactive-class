@@ -43,6 +43,8 @@ const getCurrentVersion: () => Version = () => {
   if (!versionStr) throw new Error('Version not found.');
 
   const [major, minor, patch] = versionStr.split('.').map(v => Number(v));
+  if (major == null || minor == null || patch == null)
+    throw new Error('Failed to get current version.');
   return {major, minor, patch};
 };
 
