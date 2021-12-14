@@ -752,6 +752,7 @@ __metadata:
   dependencies:
     "@types/jest": ^27.0.2
     "@types/node": ^16.11.0
+    auto-bind: 4.x
     jest: ^27.2.5
     prettier: ^2.4.1
     sijiaoh-gts: ^0.5.4
@@ -1433,6 +1434,13 @@ __metadata:
   version: 0.4.0
   resolution: "asynckit@npm:0.4.0"
   checksum: 7b78c451df768adba04e2d02e63e2d0bf3b07adcd6e42b4cf665cb7ce899bedd344c69a1dcbce355b5f972d597b25aaa1c1742b52cffd9caccb22f348114f6be
+  languageName: node
+  linkType: hard
+
+"auto-bind@npm:4.x":
+  version: 4.0.0
+  resolution: "auto-bind@npm:4.0.0"
+  checksum: 00cad71cce5742faccb7dd65c1b55ebc4f45add4b0c9a1547b10b05bab22813230133b0c892c67ba3eb969a4524710c5e43cc45c72898ec84e56f3a596e7a04f
   languageName: node
   linkType: hard
 
