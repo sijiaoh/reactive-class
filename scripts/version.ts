@@ -68,6 +68,15 @@ strategies.forEach(strategy => {
   program.command(strategy).action(() => {
     const version = getCurrentVersion();
     version[strategy]++;
+    switch (strategy) {
+      case 'major':
+        version['minor'] = 0;
+        version['patch'] = 0;
+        break;
+      case 'minor':
+        version['patch'] = 0;
+        break;
+    }
     setAllPackagesVersion(version);
 
     spawnSync('yarn', ['g:fix']);
