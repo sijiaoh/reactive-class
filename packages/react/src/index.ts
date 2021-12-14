@@ -1,2 +1,2 @@
-export * from '@reactive-class/core';
+export * from './ReactiveClass';
 export * from './useListen';

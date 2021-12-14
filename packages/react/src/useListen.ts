@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import shallowequal from 'shallowequal';
-import type {ReactiveClass} from '.';
+import type {ReactiveClass} from './ReactiveClass';
 
 export interface Selector<T, U> {
   (instance: T): U;
