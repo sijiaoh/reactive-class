@@ -79,7 +79,7 @@ describe(useListen.name, () => {
       expect(renderCount).toBe(expectRenderCount);
 
       void act(() => {
-        e.children[0].num++;
+        e.children[0]!.num++;
       });
       expect(testRenderer.toJSON()).toMatchSnapshot(
         '5 children-0 num increment'
@@ -240,7 +240,7 @@ describe(useListen.name, () => {
       expect(renderCount).toBe(2);
 
       void act(() => {
-        e.children[0].num++;
+        e.children[0]!.num++;
       });
       expect(renderCount).toBe(2);
 

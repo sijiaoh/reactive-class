@@ -84,7 +84,7 @@ describe(ReactiveClass.name, () => {
       e.child.subscribe(() => {
         childCalledCount++;
       });
-      e.children[0].subscribe(() => {
+      e.children[0]!.subscribe(() => {
         childrenCalledCount++;
       });
       e.child.child.subscribe(() => {
@@ -108,7 +108,7 @@ describe(ReactiveClass.name, () => {
       expect(eCalledCount).toBe(3);
       expect(childCalledCount).toBe(1);
 
-      e.children[0].num++;
+      e.children[0]!.num++;
       expect(eCalledCount).toBe(3);
       expect(childrenCalledCount).toBe(1);
 

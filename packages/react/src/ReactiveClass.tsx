@@ -5,7 +5,7 @@ import {
 } from '@reactive-class/core';
 import autoBind from 'auto-bind';
 import {createContext, PropsWithChildren, useContext} from 'react';
-import {Selector} from './useListen';
+import type {Selector} from './useListen';
 import {useListen} from '.';
 
 export {Unsubscribe, Callback};
