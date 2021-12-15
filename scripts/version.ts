@@ -8,26 +8,26 @@ import {program} from 'commander';
 const strategies = ['major', 'minor', 'patch'] as const;
 type Version = {[key in typeof strategies[number]]: number};
 
-const getPackagesData = () => {
+function getPackagesData() {
   const {stdout} = spawnSync('yarn', ['workspaces', 'list', '--json']);
   const json = stdout.toString() as string;
   return json
     .split(EOL)
     .filter(line => !!line)
     .map(line => JSON.parse(line));
-};
+}
 
-const getPackageJsonPath = (location: string) => {
+function getPackageJsonPath(location: string) {
   return path.join(location, 'package.json');
-};
+}
 
-const getPackageJson = (location: string) => {
+function getPackageJson(location: string) {
   const packageJsonPath = getPackageJsonPath(location);
   const packageJsonJson = fs.readFileSync(packageJsonPath).toString();
   return JSON.parse(packageJsonJson);
-};
+}
 
-const getCurrentVersion: () => Version = () => {
+function getCurrentVersion(): Version {
   const packagesData = getPackagesData();
 
   let versionStr: string | undefined;
@@ -46,9 +46,9 @@ const getCurrentVersion: () => Version = () => {
   if (major == null || minor == null || patch == null)
     throw new Error('Failed to get current version.');
   return {major, minor, patch};
-};
+}
 
-const setAllPackagesVersion = (version: Version) => {
+function setAllPackagesVersion(version: Version) {
   const packagesData = getPackagesData();
   packagesData.forEach(({location}) => {
     const packageJson = getPackageJson(location);
@@ -62,7 +62,7 @@ const setAllPackagesVersion = (version: Version) => {
     const packageJsonPath = getPackageJsonPath(location);
     fs.writeFileSync(packageJsonPath, JSON.stringify(newPackageJson));
   });
-};
+}
 
 strategies.forEach(strategy => {
   program.command(strategy).action(() => {

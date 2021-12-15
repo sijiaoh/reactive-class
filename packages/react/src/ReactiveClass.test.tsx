@@ -14,10 +14,10 @@ describe(ReactiveClass.name, () => {
     describe('in provider', () => {
       describe('without selector', () => {
         it('should return instance', () => {
-          const Component = () => {
+          function Component() {
             const e = Example.useListenFromContext<Example>();
             return <>{e.num}</>;
-          };
+          }
 
           const e = new Example();
 
@@ -41,15 +41,15 @@ describe(ReactiveClass.name, () => {
             const example1 = new Example();
             const example2 = new Example2();
 
-            const Component = () => {
+            function Component() {
               return (
                 <example2.Provider>
                   <Child />
                 </example2.Provider>
               );
-            };
+            }
 
-            const Child = () => {
+            function Child() {
               const e1 = Example.useListenFromContext<Example>();
               const e2 = Example2.useListenFromContext<Example2>();
               return (
@@ -58,7 +58,7 @@ describe(ReactiveClass.name, () => {
                   {e2.num}
                 </>
               );
-            };
+            }
 
             let testRenderer!: ReactTestRenderer;
             void act(() => {
@@ -91,10 +91,10 @@ describe(ReactiveClass.name, () => {
 
       describe('with selector', () => {
         it('should return selector return value', () => {
-          const Component = () => {
+          function Component() {
             const num = Example.useListenFromContext((e: Example) => e.num);
             return <>{num}</>;
-          };
+          }
 
           const e = new Example();
 
@@ -118,7 +118,7 @@ describe(ReactiveClass.name, () => {
 
     describe('out of provider', () => {
       it('should thro error', () => {
-        const Component = () => {
+        function Component() {
           try {
             Example.useListenFromContext<Example>();
           } catch (e) {
@@ -126,7 +126,7 @@ describe(ReactiveClass.name, () => {
             return <>{err.message}</>;
           }
           return <></>;
-        };
+        }
 
         let testRenderer!: ReactTestRenderer;
         void act(() => {

@@ -14,7 +14,7 @@ describe(useListen.name, () => {
     it('rerender component when instance value changed', () => {
       let renderCount = 0;
       let expectRenderCount = 0;
-      const Component = ({e, name}: {e: Example; name: string}) => {
+      function Component({e, name}: {e: Example; name: string}) {
         const eData = useListen(e);
         renderCount++;
         return (
@@ -34,7 +34,7 @@ describe(useListen.name, () => {
             ))}
           </>
         );
-      };
+      }
 
       const e = new Example();
       e.child = new Example();
@@ -100,11 +100,11 @@ describe(useListen.name, () => {
     it('not rerender component after destroyed', () => {
       let renderCount = 0;
       let expectRenderCount = 0;
-      const Component = ({e}: {e: Example}) => {
+      function Component({e}: {e: Example}) {
         useListen(e);
         renderCount++;
         return <></>;
-      };
+      }
 
       const e = new Example();
 
@@ -135,7 +135,7 @@ describe(useListen.name, () => {
     });
 
     it('can handle undefined', () => {
-      const Component = ({e}: {e: Example | undefined}) => {
+      function Component({e}: {e: Example | undefined}) {
         const eData = useListen(e);
         const num = useListen(e, e => {
           if (e == null) return -1;
@@ -147,7 +147,7 @@ describe(useListen.name, () => {
             {num}
           </>
         );
-      };
+      }
 
       const e = new Example();
       let testRenderer1!: ReactTestRenderer;
@@ -200,11 +200,11 @@ describe(useListen.name, () => {
   describe('with selector', () => {
     it('rerender component only selected value changed', () => {
       let renderCount = 0;
-      const Component = ({e}: {e: Example}) => {
+      function Component({e}: {e: Example}) {
         const arr = useListen(e, ({arr}) => arr);
         renderCount++;
         return <>{JSON.stringify(arr)}</>;
-      };
+      }
 
       const e = new Example();
       e.child = new Example();
@@ -258,7 +258,7 @@ describe(useListen.name, () => {
       let renderCount = 0;
       let updateCount = 0;
 
-      const Component = () => {
+      function Component() {
         const {revision} = useListen(user, ({revision}) => ({revision}));
         const [count, setCount] = useState(0);
 
@@ -279,7 +279,7 @@ describe(useListen.name, () => {
             <div>{revision}</div>
           </div>
         );
-      };
+      }
 
       let testRenderer!: ReactTestRenderer;
       void act(() => {

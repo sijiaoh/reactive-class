@@ -36,9 +36,9 @@ import {User} from './User';
 
 const user = new User();
 
-const callback = (instance: User) => {
+function callback(instance: User) {
   console.log(instance.name);
-};
+}
 
 const unsubscribe = user.subscribe(callback);
 user.name = 'a'; // Console output: a
@@ -57,9 +57,9 @@ import {User} from './User';
 
 const user = new User();
 
-const callback = ({name, destroyed}: User) => {
+function callback({name, destroyed}: User) {
   console.log(destroyed ? 'destroyed' : name);
-};
+}
 
 user.subscribe(callback);
 user.name = 'a'; // Console output: a

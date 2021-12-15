@@ -37,7 +37,7 @@ import {User} from './User';
 
 const user = new User();
 
-export const Component = () => {
+export function Component() {
   useListen(user);
 
   return (
@@ -46,7 +46,7 @@ export const Component = () => {
       <div>{user.email}</div>
     </div>
   );
-};
+}
 ```
 
 useListen はインスタンスをそのまま返すため、下記のように使用できる。
@@ -59,7 +59,7 @@ import {User} from './User';
 
 const user = new User();
 
-export const Component = () => {
+export function Component() {
   // userData === user
   const userData = useListen(user);
 
@@ -69,7 +69,7 @@ export const Component = () => {
       <div>{userData.email}</div>
     </div>
   );
-};
+}
 ```
 
 ### セレクタ
@@ -84,7 +84,7 @@ import {User} from './User';
 
 const user = new User();
 
-export const Component = () => {
+export function Component() {
   const name = useListen(user, instance => instance.name);
 
   return (
@@ -92,7 +92,7 @@ export const Component = () => {
       <div>{name}</div>
     </div>
   );
-};
+}
 ```
 
 利便性のため、useListen はコールバック関数の戻り値が array や object だった場合は、単純に`===`で比較するのではなく、[shallowequal][shallowequal-url]で比較している。
@@ -105,7 +105,7 @@ import {User} from './User';
 
 const user = new User();
 
-export const Component = () => {
+export function Component() {
   const {name} = useListen(user, instance => ({name: instance.name}));
 
   return (
@@ -113,7 +113,7 @@ export const Component = () => {
       <div>{name}</div>
     </div>
   );
-};
+}
 ```
 
 ### Revision
@@ -128,7 +128,7 @@ import {User} from './User';
 
 const user = new User();
 
-export const Component = () => {
+export function Component() {
   const {revision, name} = useListen(user, ({revision, name}) => ({
     revision,
     name,
@@ -143,7 +143,7 @@ export const Component = () => {
       <div>{name}</div>
     </div>
   );
-};
+}
 ```
 
 [rc-core-url]: https://github.com/sijiaoh/reactive-class/tree/master/packages/core
