@@ -76,8 +76,7 @@ describe(ReactiveClass.name, () => {
       let childCalledCount = 0;
       let childrenCalledCount = 0;
       let grandChildCalledCount = 0;
-      const subscribe = e.subscribe;
-      subscribe(i => {
+      e.subscribe(i => {
         expect(i.destroyed).toBeFalsy();
         eCalledCount++;
       });

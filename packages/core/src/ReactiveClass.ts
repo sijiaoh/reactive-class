@@ -1,5 +1,3 @@
-import autoBind from 'auto-bind';
-
 export interface Callback<T extends ReactiveClass> {
   (instance: T): void;
 }
@@ -49,8 +47,6 @@ export class ReactiveClass extends Base {
     });
 
     ReactiveClass.instances.push(this);
-
-    autoBind(this);
   }
 
   destroy() {

@@ -3,7 +3,6 @@ import {
   Callback,
   ReactiveClass as CoreReactiveClass,
 } from '@reactive-class/core';
-import autoBind from 'auto-bind';
 import {createContext, PropsWithChildren, useContext} from 'react';
 import type {Selector} from './useListen';
 import {useListen} from '.';
@@ -32,11 +31,6 @@ export class ReactiveClass extends CoreReactiveClass {
     if (selector == null) return useListen(this.useFromContext<T>());
     // eslint-disable-next-line react-hooks/rules-of-hooks
     else return useListen(this.useFromContext<T>(), selector);
-  }
-
-  constructor() {
-    super();
-    autoBind(this);
   }
 
   Provider({children}: PropsWithChildren<{}>) {

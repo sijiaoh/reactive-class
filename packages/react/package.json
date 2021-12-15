@@ -25,7 +25,6 @@
   },
   "dependencies": {
     "@reactive-class/core": "workspace:packages/core",
-    "auto-bind": "^4.0.0",
     "react": "^17.0.2",
     "shallowequal": "^1.1.0"
   },
