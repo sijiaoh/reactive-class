@@ -1,5 +1,5 @@
 import {act, create, ReactTestRenderer} from 'react-test-renderer';
-import {ReactiveClass} from '.';
+import {ReactiveClass, ReactiveClassProvider, useListenFromContext} from '.';
 
 class Example extends ReactiveClass {
   num = 0;
@@ -10,12 +10,12 @@ class Example2 extends ReactiveClass {
 }
 
 describe(ReactiveClass.name, () => {
-  describe(ReactiveClass.useListenFromContext.name, () => {
+  describe(useListenFromContext.name, () => {
     describe('in provider', () => {
       describe('without selector', () => {
         it('should return instance', () => {
           function Component() {
-            const e = Example.useListenFromContext<Example>();
+            const e = useListenFromContext(Example);
             return <>{e.num}</>;
           }
 
@@ -24,9 +24,9 @@ describe(ReactiveClass.name, () => {
           let testRenderer!: ReactTestRenderer;
           void act(() => {
             testRenderer = create(
-              <e.Provider>
+              <ReactiveClassProvider instance={e}>
                 <Component />
-              </e.Provider>
+              </ReactiveClassProvider>
             );
           });
           expect(testRenderer.toJSON()).toMatchInlineSnapshot('"0"');
@@ -43,15 +43,15 @@ describe(ReactiveClass.name, () => {
 
             function Component() {
               return (
-                <example2.Provider>
+                <ReactiveClassProvider instance={example2}>
                   <Child />
-                </example2.Provider>
+                </ReactiveClassProvider>
               );
             }
 
             function Child() {
-              const e1 = Example.useListenFromContext<Example>();
-              const e2 = Example2.useListenFromContext<Example2>();
+              const e1 = useListenFromContext(Example);
+              const e2 = useListenFromContext(Example2);
               return (
                 <>
                   {e1.num}
@@ -63,9 +63,9 @@ describe(ReactiveClass.name, () => {
             let testRenderer!: ReactTestRenderer;
             void act(() => {
               testRenderer = create(
-                <example1.Provider>
+                <ReactiveClassProvider instance={example1}>
                   <Component />
-                </example1.Provider>
+                </ReactiveClassProvider>
               );
             });
             expect(testRenderer.toJSON()).toMatchInlineSnapshot(`
@@ -92,7 +92,7 @@ describe(ReactiveClass.name, () => {
       describe('with selector', () => {
         it('should return selector return value', () => {
           function Component() {
-            const num = Example.useListenFromContext((e: Example) => e.num);
+            const num = useListenFromContext(Example, e => e.num);
             return <>{num}</>;
           }
 
@@ -101,9 +101,9 @@ describe(ReactiveClass.name, () => {
           let testRenderer!: ReactTestRenderer;
           void act(() => {
             testRenderer = create(
-              <e.Provider>
+              <ReactiveClassProvider instance={e}>
                 <Component />
-              </e.Provider>
+              </ReactiveClassProvider>
             );
           });
           expect(testRenderer.toJSON()).toMatchInlineSnapshot('"0"');
@@ -120,7 +120,7 @@ describe(ReactiveClass.name, () => {
       it('should thro error', () => {
         function Component() {
           try {
-            Example.useListenFromContext<Example>();
+            useListenFromContext(Example);
           } catch (e) {
             const err = e as Error;
             return <>{err.message}</>;

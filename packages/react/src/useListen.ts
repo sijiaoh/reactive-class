@@ -1,6 +1,6 @@
+import type {ReactiveClass} from '@reactive-class/core';
 import {useEffect, useState} from 'react';
 import shallowequal from 'shallowequal';
-import type {ReactiveClass} from './ReactiveClass';
 
 export interface Selector<T, U> {
   (instance: T): U;
@@ -15,9 +15,9 @@ export interface UseListen {
     selector: Selector<T | undefined, U | undefined>
   ): U | undefined;
   <T extends ReactiveClass, U>(
-    instance: T | undefined,
-    selector: Selector<T | undefined, U | undefined> | undefined
-  ): T | U | undefined;
+    instance: T,
+    selector: Selector<T, U> | undefined
+  ): T | U;
 }
 
 export const useListen: UseListen = <T extends ReactiveClass, U>(
